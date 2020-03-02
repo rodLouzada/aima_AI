@@ -1,0 +1,10 @@
+Water Jugs Iterative DLS -->
+                                                                           
+Action[name==Fill_3]                                                                                 
+Action[name==Pour_3_to_4]
+Action[name==Fill_3]
+Action[name==Pour_3_to_4]
+Action[name==Empty_4]
+Action[name==Pour_3_to_4]
+pathCost : 6.0                                                                                         
+nodesExpanded : 556 

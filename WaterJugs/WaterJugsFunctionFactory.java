@@ -1,0 +1,115 @@
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import aima.core.agent.Action;
+import aima.core.search.framework.problem.ActionsFunction;
+import aima.core.search.framework.problem.ResultFunction;
+
+public class WaterJugsFunctionFactory {
+    private static ActionsFunction _actionsFunction = null;
+    private static ResultFunction _resultFunction = null;
+
+    public static ActionsFunction getActionsFunction() {
+	if (null == _actionsFunction){
+	    _actionsFunction = new WJActionsFunction();
+	}
+	return _actionsFunction;
+    }
+
+    public static ResultFunction getResultFunction() {
+	if (null == _resultFunction){
+	    _resultFunction = new WJResultFunction();
+	}
+	return _resultFunction;
+    }
+
+    private static class WJActionsFunction implements ActionsFunction {
+	public Set<Action> actions(Object state){
+	    WaterJugsBoard board = (WaterJugsBoard) state;
+
+	    Set<Action> actions = new LinkedHashSet<Action>();
+
+	    if (board.canMoveWater(WaterJugsBoard.FILL_4)){
+		actions.add(WaterJugsBoard.FILL_4);
+	    }
+	    if (board.canMoveWater(WaterJugsBoard.FILL_3)){
+		actions.add(WaterJugsBoard.FILL_3);
+	    }
+	    if (board.canMoveWater(WaterJugsBoard.EMPTY_4)){
+		actions.add(WaterJugsBoard.EMPTY_4);
+	    }
+	    if (board.canMoveWater(WaterJugsBoard.EMPTY_3)){
+		actions.add(WaterJugsBoard.EMPTY_3);
+	    }
+	    if (board.canMoveWater(WaterJugsBoard.POUR_4_TO_3)){
+		actions.add(WaterJugsBoard.POUR_4_TO_3);
+	    }
+	    if (board.canMoveWater(WaterJugsBoard.POUR_3_TO_4)){
+		actions.add(WaterJugsBoard.POUR_3_TO_4);
+	    }
+
+	    return actions;
+	}
+    }
+
+	private static class WJResultFunction implements ResultFunction {
+	    public Object result(Object s,  Action a) {
+		WaterJugsBoard board = (WaterJugsBoard) s;
+
+		if (WaterJugsBoard.FILL_4.equals(a) && board.canMoveWater(WaterJugsBoard.FILL_4)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    //System.out.println("Added water to four");		    
+		    newBoard.Fill4();
+		    
+		    return newBoard;
+		    
+		} else if (WaterJugsBoard.FILL_3.equals(a) && board.canMoveWater(WaterJugsBoard.FILL_3)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    //System.out.println("Added water to three");
+		    newBoard.Fill3();
+		    
+		    return newBoard;
+		    
+		} else if (WaterJugsBoard.EMPTY_4.equals(a) && board.canMoveWater(WaterJugsBoard.EMPTY_4)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    
+		    newBoard.Empty4();
+		    //System.out.println("Empty 4");
+		    return newBoard;
+		    
+		} else if (WaterJugsBoard.EMPTY_3.equals(a) && board.canMoveWater(WaterJugsBoard.EMPTY_3)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    
+		    newBoard.Empty3();
+		    //System.out.println("Empty 3");
+		    
+		    return newBoard;
+		    
+		} else if (WaterJugsBoard.POUR_4_TO_3.equals(a) && board.canMoveWater(WaterJugsBoard.POUR_4_TO_3)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    //System.out.println("Pour 4 to 3");
+		    newBoard.Pour4to3();
+		    
+		    return newBoard;
+		    
+		} else if (WaterJugsBoard.POUR_3_TO_4.equals(a) && board.canMoveWater(WaterJugsBoard.POUR_3_TO_4)){
+		    
+		    WaterJugsBoard newBoard = new WaterJugsBoard(board);
+		    
+		    newBoard.Pour3to4();
+		    //System.out.println("Pour 3 to 4");
+		    return newBoard;
+		    
+		}
+		
+
+		
+		return s;
+	    }
+	}
+}
